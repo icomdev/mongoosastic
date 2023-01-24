@@ -71,10 +71,9 @@ export async function flush(this: MongoosasticModel<MongoosasticDocument>): Prom
       const objectValues = Object.entries(res)
       const [, items] = objectValues.find(([key]) => key === itemKey) as [string, Array<any>]
 
-
       if (items && items.length) {
-        for (let i = 0; i < res.body.items.length; i++) {
-          const info = res.body.items[i]
+        for (let i = 0; i <items.length; i++) {
+          const info = items[i]
           if (info && info.index && info.index.error) {
             this.bulkError().emit('error', null, info.index)
           }
