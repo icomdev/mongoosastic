@@ -39,6 +39,7 @@
     "authors": "./scripts/update_authors.sh",
     "prepare": "npm run build",
     "build": "rm -rf dist && tsc -p . ",
+    "postinstall": "echo PostInstall script && npm run build",
     "lint-fix": "npm run lint -- --fix",
     "lint": "eslint lib test",
     "jest": "jest --detectOpenHandles --runInBand",
