@@ -1,6 +1,6 @@
-import { MongoosasticDocument } from './types'
+// import { MongoosasticDocument } from "./types";
 
-export async function postSave(doc: MongoosasticDocument): Promise<void> {
+export async function postSave(doc: any): Promise<void> {
   if (!doc) {
     return
   }
@@ -20,21 +20,26 @@ export async function postSave(doc: MongoosasticDocument): Promise<void> {
   const populate = options && options.populate
   if (doc) {
     if (populate && populate.length) {
-      const popDoc = await doc.populate(populate)
-      popDoc
-        .index()
-        .then((res) => onIndex(null, res))
-        .catch((err) => onIndex(err, null))
+      populate.forEach((populateOpts:any) => {
+        doc.populate(populateOpts)
+      })
+
+      doc.execPopulate().then((popDoc:any) => {
+        popDoc
+          .index()
+          .then((res: any) => onIndex(null, res))
+          .catch((err: any) => onIndex(err, null))
+      })
     } else {
       doc
         .index()
-        .then((res) => onIndex(null, res))
-        .catch((err) => onIndex(err, null))
+        .then((res: any) => onIndex(null, res))
+        .catch((err: any) => onIndex(err, null))
     }
   }
 }
 
-export function postRemove(doc: MongoosasticDocument): void {
+export function postRemove(doc: any): void {
   if (!doc) {
     return
   }
